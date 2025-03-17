@@ -11,7 +11,7 @@ export function favouriteReducer(state, action) {
       console.log(action);
 
       const productsInFavourite = state.products.find((product) => {
-        return product.id === action.payload.id;
+        return newState;
       });
 
       if (!productsInFavourite) {
