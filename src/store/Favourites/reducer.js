@@ -8,30 +8,47 @@ export function favouriteReducer(state, action) {
       let favouriteProducts;
       let newState;
 
-      console.log(action);
-
-      const productsInFavourite = state.products.find((product) => {
-        return newState;
+      const foundFavourite = state.products.find((product) => {
+        return product.id === action.payload.id;
       });
 
-      if (!productsInFavourite) {
-        favouriteProducts = [...state.products, action.payload];
+      if (foundFavourite) {
+        favouriteProducts = state.products.map((product) => {
+          if (product.id === foundFavourite.id) {
+            return {
+              ...product,
+              quantity: product.quantity + 1,
+            };
+          } else {
+            return product;
+          }
+        });
+      } else {
+        favouriteProducts = [
+          ...state.products,
+          {
+            ...action.payload,
+            quantity: 1,
+          },
+        ];
       }
-      console.log("dasda", favouriteProducts);
 
       newState = {
         products: favouriteProducts,
       };
+
       return newState;
     }
+
     case "REMOVE_FROM_FAVOURITES": {
       const filteredProducts = state.products.filter((product) => {
         return product.id !== action.payload;
       });
-      const newState = {
+
+      return {
+        ...state,
         products: filteredProducts,
       };
-      return newState;
     }
     default:
       return state;
